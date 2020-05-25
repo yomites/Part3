@@ -1,26 +1,28 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let persons = [
     {
-        "name": "Arto Hellas",
-        "number": "045-31235234",
-        "id": 1
+        name: "Arto Hellas",
+        number: "045-31235234",
+        id: 1
     },
     {
-        "name": "Ada Lovelace",
-        "number": "39-44-5323523",
-        "id": 2
+        name: "Ada Lovelace",
+        number: "39-44-5323523",
+        id: 2
     },
     {
-        "name": "Dan Abramov",
-        "number": "12-43-234345",
-        "id": 3
+        name: "Dan Abramov",
+        number: "12-43-234345",
+        id: 3
     },
     {
-        "name": "Mary Poppendieck",
-        "number": "39-23-6423122",
-        "id": 4
+        name: "Mary Poppendieck",
+        number: "39-23-6423122",
+        id: 4
     }
 ]
 
@@ -41,7 +43,7 @@ app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
     const person = persons.find(person => person.id === id)
 
-    if(person) {
+    if (person) {
         response.json(person)
     } else {
         response.status(404).end()
@@ -54,6 +56,45 @@ app.delete('/api/persons/:id', (request, response) => {
 
     response.status(204).end()
 })
+
+app.post('/api/persons', (request, response) => {
+    const body = request.body
+
+    if (!body.name) {
+        return response.status(400).json({
+            error: 'name missing'
+        })
+    }
+
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: idGenerator(),
+    }
+
+    persons = persons.concat(person)
+    response.json(person)
+})
+
+const idGenerator = () => {
+
+    const idArray = persons.map(p => p.id)
+    const maxId = persons.length * 5
+    const minId = 1
+    console.log(maxId)
+
+    const id = Math.floor(Math.random() *
+        (maxId - minId + 1)) + minId
+
+    const idFilter = idArray.filter(a => a === id)
+
+    if (idFilter.length === 0) {
+        return id
+    } else {
+        return (Math.floor(Math.random() *
+            (maxId + 1)) + maxId)
+    }
+}
 
 const PORT = 3001
 app.listen(PORT, () => {
