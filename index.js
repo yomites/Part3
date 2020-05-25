@@ -59,10 +59,22 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
+    const name = body.name
+    const number = body.number
+    const nameChecker = 
+    persons.filter(p => p.name === name)
 
-    if (!body.name) {
+    if (!name) {
         return response.status(400).json({
-            error: 'name missing'
+            error: 'name can not be empty'
+        })
+    } if (!number) {
+        return response.status(400).json({
+            error: 'number can not be empty'
+        })
+    } if (nameChecker.length >= 1) {
+        return response.status(400).json({
+            error: 'name must be unique'
         })
     }
 
