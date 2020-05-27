@@ -1,8 +1,2 @@
-DELETE  http://localhost:3001/api/persons/id
+DELETE  http://localhost:3001/api/persons/6
 Content-Type: application/json
-
-{
-    "name": "Jans Lagerback",
-    "number": "6590-221-502",
-    "id": 7
-}
