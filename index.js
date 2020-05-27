@@ -4,7 +4,8 @@ const morgan = require('morgan')
 
 app.use(express.json())
 
-app.use(morgan('tiny'))
+morgan.token('type', function (req, res) { return JSON.stringify(req.body)})
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :type'))
 
 let persons = [
     {
@@ -55,9 +56,15 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
+    const contactToDelete = persons.find(person => person.id === id)
     persons = persons.filter(person => person.id !== id)
-
-    response.status(204).end()
+    console.log(contactToDelete)
+    
+    if (contactToDelete) {
+        response.status(204).end()
+    } else {
+        response.status(404).end()
+    }   
 })
 
 app.post('/api/persons', (request, response) => {
