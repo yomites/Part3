@@ -78,31 +78,22 @@ app.post('/api/persons', (request, response) => {
     const body = request.body
     const name = body.name
     const number = body.number
-    const nameChecker = 
-    persons.filter(p => p.name === name)
 
-    if (!name) {
+    if (name === undefined || name === '' 
+    || number === undefined || number === '') {
         return response.status(400).json({
-            error: 'name can not be empty'
-        })
-    } if (!number) {
-        return response.status(400).json({
-            error: 'number can not be empty'
-        })
-    } if (nameChecker.length >= 1) {
-        return response.status(400).json({
-            error: 'name must be unique'
+            error: 'name or number missing'
         })
     }
 
-    const person = {
+    const person = new Person({
         name: body.name,
         number: body.number,
-        id: idGenerator(),
-    }
+    })
 
-    persons = persons.concat(person)
-    response.json(person)
+    person.save().then(savedPerson => {
+        response.json(savedPerson)
+    })  
 })
 
 const idGenerator = () => {
