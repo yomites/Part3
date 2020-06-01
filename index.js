@@ -51,27 +51,30 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
-
-    if (person) {
-        response.json(person)
-    } else {
-        response.status(404).end()
-    }
+    Person.findById(request.params.id)
+    .then(person => {
+        if (person) {
+            response.json(person)
+        } else {
+            response.status(404).end()
+        }      
+    })
+    .catch(error => {
+        console.log(error)
+        response.status(400).send({ error: 'malformatted id' })
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const contactToDelete = persons.find(person => person.id === id)
-    persons = persons.filter(person => person.id !== id)
-    console.log(contactToDelete)
     
-    if (contactToDelete) {
-        response.status(204).end()
-    } else {
-        response.status(404).end()
-    }   
+    Person.findByIdAndRemove(request.params.id)
+    .then(result => {
+        if (result) {
+            response.status(204).end()
+        } else {
+            response.status(404).send('Contact not in database')
+        }       
+    }).catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response) => {
