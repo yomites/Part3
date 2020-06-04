@@ -56,16 +56,15 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
-  //  const name = body.name
 
-    Person.find({name: body.name}).then(person => {
+ //   Person.find({name: body.name}).then(person => {
         
-        if (person.length === 1) {
+      /*  if (person.length === 1) {
             console.log('duplicate', body.name)
             response.status(400).json({
                 error: `${body.name} already exists in database`
             })
-        } else {
+        } else {*/
             const person = new Person({
                 name: body.name,
                 number: body.number,
@@ -78,9 +77,9 @@ app.post('/api/persons', (request, response, next) => {
                 response.json(savedAndFormattedPerson)
             })
             .catch(error => next(error))
-        }
+ //       }
     })   
-})
+//})
 
 app.put('/api/persons/:id', (request, response, next) => {
     const body = request.body
