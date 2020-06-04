@@ -56,11 +56,12 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
+    const name = body.name
 
     Person.find({name: body.name}).then(person => {
         
         if (person.length === 1) {
-            console.log('duplicate', body.name)
+            console.log('duplicate', name)
             response.status(400).json({
                 error: `${body.name} already exists in database`
             })
