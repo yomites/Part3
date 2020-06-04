@@ -57,29 +57,19 @@ app.delete('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
 
- //   Person.find({name: body.name}).then(person => {
-        
-      /*  if (person.length === 1) {
-            console.log('duplicate', body.name)
-            response.status(400).json({
-                error: `${body.name} already exists in database`
-            })
-        } else {*/
-            const person = new Person({
-                name: body.name,
-                number: body.number,
-            })
-        
-            person
-            .save()
-            .then(savedPerson => savedPerson.toJSON())
-            .then(savedAndFormattedPerson => {
-                response.json(savedAndFormattedPerson)
-            })
-            .catch(error => next(error))
- //       }
-    })   
-//})
+    const person = new Person({
+        name: body.name,
+        number: body.number,
+    })
+
+    person
+        .save()
+        .then(savedPerson => savedPerson.toJSON())
+        .then(savedAndFormattedPerson => {
+            response.json(savedAndFormattedPerson)
+        })
+        .catch(error => next(error))
+})
 
 app.put('/api/persons/:id', (request, response, next) => {
     const body = request.body
@@ -98,7 +88,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 const unknownEndPoint = (request, response) => {
     response.status(404)
-    .send({ error: 'unknown endpoint'})
+        .send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndPoint)
