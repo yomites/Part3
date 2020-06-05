@@ -7,6 +7,8 @@
     "start": "node index.js",
     "dev": "npx nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "git push heroku master",
+    "logs:prod": "heroku logs --tail",
     "lint": "npx eslint ."
   },
   "author": "Oriyomi Oladele",

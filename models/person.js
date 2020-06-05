@@ -9,8 +9,9 @@ console.log('connecting to', url)
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
   .then(result => {
-    console.log(result)
-    console.log('connected to MongoDB')
+    if (result) {
+      console.log('connected to MongoDB')
+    }
   }).catch((error) => {
     console.log('error connecting to MongoDB:', error.message)
   })

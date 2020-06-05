@@ -26,10 +26,7 @@ module.exports = {
       'error', { 'before': true, 'after': true }
     ],
     'no-console': 0,
-    'linebreak-style': [
-      'error',
-      'unix'
-    ],
+    'linebreak-style': 0,
     'quotes': [
       'error',
       'single'
