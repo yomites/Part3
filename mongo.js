@@ -26,11 +26,14 @@ if (process.argv.length === 5) {
   })
 
   person.save().then(result => {
-    //   console.log(result)
-    console.log(`added ${process.argv[3]} number ${process.argv[4]} to phonebook`)
-    mongoose.connection.close()
+    if (result) {
+      console.log(`added ${process.argv[3]} number ${process.argv[4]} to phonebook`)
+      mongoose.connection.close()
+    }
   })
-} if (process.argv.length > 3 && process.argv.length < 5) {
+}
+
+if (process.argv.length > 3 && process.argv.length < 5) {
   console.log('Either name or number can not be empty')
   process.exit(1)
 }

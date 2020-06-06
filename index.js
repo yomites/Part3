@@ -5,7 +5,11 @@ const morgan = require('morgan')
 const cors = require('cors')
 const Person = require('./models/person')
 
-morgan.token('type', function (req) { return JSON.stringify(req.body) })
+morgan.token('type', function (req, res) {
+  console.log('-------------------------------------------------------------------------------')
+  res.end()
+  return JSON.stringify(req.body)
+})
 
 app.use(express.static('build'))
 app.use(express.json())
